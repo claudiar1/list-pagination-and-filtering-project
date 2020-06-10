@@ -1,15 +1,15 @@
-let listItems = document.getElementsByClassName("student-item cf");
-let itemsPerPage = 10;
-let pageDiv = document.getElementsByClassName("page")[0];
-let searchDiv = document.createElement("div");
+const listItems = document.getElementsByClassName("student-item cf");
+const itemsPerPage = 10;
+const pageDiv = document.getElementsByClassName("page")[0];
+const searchDiv = document.createElement("div");
 searchDiv.className = "student-search";
-let searchBar = document.createElement("input");
+const searchBar = document.createElement("input");
 searchBar.placeholder = "Search for students...";
-let searchButton = document.createElement("button");
+const searchButton = document.createElement("button");
 searchButton.textContent = "Search";
 searchDiv.appendChild(searchButton);
 searchDiv.insertBefore(searchBar, searchButton);
-let headerDiv = document.getElementsByClassName("page-header cf")[0];
+const headerDiv = document.getElementsByClassName("page-header cf")[0];
 headerDiv.appendChild(searchDiv);
 
 /**
@@ -20,8 +20,8 @@ headerDiv.appendChild(searchDiv);
  */
 
 function showPage(list, page) {
-  let startIndex = page * itemsPerPage - itemsPerPage;
-  let endIndex = page * itemsPerPage;
+  const startIndex = page * itemsPerPage - itemsPerPage;
+  const endIndex = page * itemsPerPage;
   for (let i = 0; i < list.length; i += 1) {
     if (i >= startIndex && i < endIndex) {
       list[i].style.display = "block";
@@ -38,9 +38,9 @@ function showPage(list, page) {
  */
 
 function appendPages(list) {
-  let pageNumbersDiv = document.createElement("div");
+  const pageNumbersDiv = document.createElement("div");
   pageNumbersDiv.className = "pagination";
-  let ul = document.createElement("ul");
+  const ul = document.createElement("ul");
 
   let pagesNeeded = parseInt(list.length / itemsPerPage);
   if (list.length % itemsPerPage !== 0) {
@@ -51,8 +51,8 @@ function appendPages(list) {
   pageNumbersDiv.appendChild(ul);
 
   for (let i = 1; i <= pagesNeeded; i += 1) {
-    let li = document.createElement("li");
-    let a = document.createElement("a");
+    const li = document.createElement("li");
+    const a = document.createElement("a");
     ul.appendChild(li);
     li.appendChild(a);
     a.text = i.toString();
@@ -63,7 +63,7 @@ function appendPages(list) {
     }
 
     a.addEventListener("click", e => {
-      let links = document.getElementsByTagName("a");
+      const links = document.getElementsByTagName("a");
 
       for (i = 0; i < links.length; i += 1) {
         links[i].className = "";
@@ -81,13 +81,15 @@ function appendPages(list) {
  */
 
 function searchFunctionality() {
-  let searchInput = searchBar.value;
-  let resultsFound = [];
+  const searchInput = searchBar.value;
+  const resultsFound = [];
   for (let i = 0; i < listItems.length; i += 1) {
     listItems[i].style.display = "none";
     if (
       searchInput.length !== 0 &&
-      listItems[i].textContent.toLowerCase().includes(searchInput.toLowerCase())
+      listItems[i].childNodes[1].textContent
+        .toLowerCase()
+        .includes(searchInput.toLowerCase())
     ) {
       listItems[i].style.display = "block";
       resultsFound.push(listItems[i]);
@@ -95,12 +97,12 @@ function searchFunctionality() {
       resultsFound.push(listItems[i]);
     }
   }
-  let message = document.getElementById("sorry");
+  const message = document.getElementById("sorry");
   if (message) {
     pageDiv.removeChild(message);
   }
   if (resultsFound.length === 0) {
-    let notFoundMessage = document.createElement("p");
+    const notFoundMessage = document.createElement("p");
     notFoundMessage.textContent = "Sorry, no results found.";
     notFoundMessage.id = "sorry";
     pageDiv.appendChild(notFoundMessage);
