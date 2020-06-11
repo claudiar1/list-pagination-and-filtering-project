@@ -71,16 +71,18 @@ function appendPages(list) {
 
       e.target.className = "active";
 
-      showPage(listItems, parseInt(e.target.textContent));
+      showPage(getResults(), parseInt(e.target.textContent));
     });
   }
 }
 
 /**
- * searchFunctionality displays results of student objects that include a given string provided by user in the searchbar. If no results are found, an error message is displayed.
+ * getResults gets a list of student objects that match a user's search. If no search criteria is provided, all student objects are displayed.
+ *
+ * @return {array} - returns an array of students objects.
  */
 
-function searchFunctionality() {
+function getResults() {
   const searchInput = searchBar.value;
   const resultsFound = [];
   for (let i = 0; i < listItems.length; i += 1) {
@@ -97,6 +99,15 @@ function searchFunctionality() {
       resultsFound.push(listItems[i]);
     }
   }
+  return resultsFound;
+}
+
+/**
+ * searchFunctionality displays results of student objects that include a given string provided by user in the searchbar. If there is no searchbar input, the full list of students is displayed. If no results are found, an error message is displayed.
+ */
+
+function searchFunctionality() {
+  const resultsFound = getResults();
   const message = document.getElementById("sorry");
   if (message) {
     pageDiv.removeChild(message);
